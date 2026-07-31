@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>2026 FUKUOKA</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        :root {
+            --steel-blue: #4682B4;
+            --sky-blue-main: #87CEEB;
+            --light-bg-blue: #E1F5FE; 
+            --accent-pink: #FFC1CC;
+            --glass-white: rgba(255, 255, 255, 0.85);
+        }
+
+        body {
+            margin: 0;
+            background-color: black;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        .menu-icon {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            font-size: 25px;
+            color: white;
+            cursor: pointer;
+            z-index: 2100;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        ul#sideMenu {
+            list-style-type: none;
+            margin: 0;
+            padding: 80px 0 0 0;
+            width: 250px;
+            background-color: #000;
+            position: fixed;
+            height: 100%;
+            left: -250px;
+            transition: 0.3s;
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        ul#sideMenu.open {
+            left: 0;
+        }
+
+        .home-link {
+            display: block;
+            color: white;
+            padding: 20px 16px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .home-link:hover {
+            background-color: #FFE4C4;
+            color: black;
+        }
+
+        .country-btn {
+            display: block;
+            width: 100%;
+            padding: 20px 16px;
+            color: white;
+            background: #000;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .country-btn:hover {
+            background-color: #111;
+            color: #FFE4C4;
+        }
+
+        .city-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #0a0a0a;
+        }
+
+        .city-list.active {
+            max-height: 300px;
+        }
+
+        .city-list li a {
+            display: block;
+            color: #bbb;
+            padding: 15px 16px;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .city-list li a:hover {
+            background-color: #FFE4C4;
+            color: black;
+        }
+
+        .main-wrapper {
+            transition: 0.3s;
+        }
+
+        .bg-fixed {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: url('https://rosaroundtheworld.com/wp-content/uploads/2024/10/2_122622.webp') no-repeat center center;
+            background-size: cover;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 50px 20px 50px 20px; 
+            text-align: center;
+            border-bottom: 1px solid var(--steel-blue);
+        }
+
+        h1 {
+            color: var(--steel-blue);
+            font-size: 2rem;
+            margin: 0;
+            letter-spacing: 4px;
+        }
+
+        .day-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 18px 0;
+            padding-left: 60px; 
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--steel-blue);
+        }
+
+        @media (max-width: 800px) {
+            .day-nav { 
+                justify-content: flex-start; 
+                padding-left: 70px;
+            }
+        }
+
+        .day-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            display: inline-block;
+            padding: 8px 18px;
+            margin: 0 4px;
+            background: white;
+            color: var(--steel-blue);
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 15px 80px 15px;
+        }
+
+        .day-banner {
+            background: var(--sky-blue-main);
+            color: white;
+            padding: 12px 28px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 80px 0 25px 0; 
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 4px 4px 0px var(--accent-pink);
+            scroll-margin-top: 130px;
+        }
+
+        .spot-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        .spot-row {
+            background: var(--glass-white);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: all 0.3s ease;
+        }
+
+        .spot-link:hover .spot-row {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid var(--sky-blue-main);
+        }
+
+        @media (min-width: 768px) {
+            .spot-row {
+                flex-direction: row;
+                min-height: 220px;
+            }
+        }
+
+        .spot-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        @media (min-width: 768px) {
+            .spot-img {
+                width: 35%;
+                height: auto;
+            }
+        }
+
+        .info {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .title {
+            font-size: 1.4rem;
+            color: var(--sky-blue-main);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .time-tag {
+            background: var(--accent-pink);
+            color: white;
+            padding: 4px 15px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            width: fit-content;
+            margin-inline: auto; 
+        }
+
+        .spot-desc {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #555;
+            margin: 0;
+        }
+
+        .transport-link { 
+            text-decoration: none; 
+            color: inherit; 
+            display: block; 
+            margin-bottom: 30px; 
+            cursor: pointer; 
+        }
+
+        .transport-card {
+            background: var(--glass-white);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .transport-icon {
+            font-size: 2.2rem;
+            background: white;
+            width: 65px;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .transport-link:hover .transport-card {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid var(--sky-blue-main);
+        }
+
+        @media (min-width: 800px) {
+            .transport-card {
+                padding: 20px;
+                gap: 100px;
+            }
+
+            .transport-icon {
+                margin-left: 100px;
+                width: 100px;
+                height: 100px;
+                font-size: 3.33rem;
+            }
+        }
+
+        .transport-time-group {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .time-box {
+            text-align: center;
+        }
+
+        .time-val {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .time-loc {
+            font-size: 1rem;
+            color: #777;
+        }
+
+        .time-arrow {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            margin: 0 15px;
+            color: var(--steel-blue);
+        }
+
+        .time-arrow::after {
+            content: "➔";
+            font-size: 3rem;
+        }
+
+        .duration-tag {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            color: var(--steel-blue);
+            white-space: nowrap;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 50px 20px;
+            text-align: center;
+            color: var(--steel-blue);
+            font-weight: bold;
+            border-top: 1px solid var(--steel-blue);
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+    <ul id="sideMenu">
+        <li><a href="index.html" class="home-link">HOME</a></li>
+        <li>
+            <button class="country-btn" onclick="toggleCity(this)">🇰🇷 ▼</button>
+            <ul class="city-list">
+                <li><a href="2026busan.html">2026 BUSAN</a></li>
+            </ul>
+        </li>
+        <li>
+            <button class="country-btn" onclick="toggleCity(this)">🇯🇵 ▼</button>
+            <ul class="city-list">
+                <li><a href="2026fukuoka.html">2026 FUKUOKA</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="main-wrapper" onclick="closeMenu()">
+        <div class="bg-fixed"></div>
+
+        <header>
+            <h1>福岡/太宰府/由布院 5日遊</h1>
+        </header>
+
+        <nav class="day-nav">
+            <a href="#day1" class="nav-item">D-1</a>
+            <a href="#day2" class="nav-item">D-2</a>
+            <a href="#day3" class="nav-item">D-3</a>
+            <a href="#day4" class="nav-item">D-4</a>
+            <a href="#day5" class="nav-item">D-5</a>
+        </nav>
+
+        <div class="container">
+            <div class="day-banner" id="day1">11/6 (五) ✈️</div>
+            <a class="transport-link">
+                <div class="transport-card">
+                    <div class="transport-icon">🚄</div>
+                    <div class="info">
+                        <div class="title">台灣高鐵 628 / 818</div>
+                        <br>
+                        <div class="transport-time-group">
+                            <div class="time-box">
+                                <div class="time-val">10:48</div>
+                                <div class="time-loc">台南</div>
+                            </div>
+                            <div class="time-arrow"><span class="duration-tag">1小時21分鐘</span></div>
+                            <div class="time-box">
+                                <div class="time-val">12:09</div>
+                                <div class="time-loc">桃園</div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="transport-time-group">
+                            <div class="time-box">
+                                <div class="time-val">11:36</div>
+                                <div class="time-loc">台中</div>
+                            </div>
+                            <div class="time-arrow"><span class="duration-tag">42分鐘</span></div>
+                            <div class="time-box">
+                                <div class="time-val">12:18</div>
+                                <div class="time-loc">桃園</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a class="transport-link">
+                <div class="transport-card">
+                    <div class="transport-icon">✈️</div>
+                    <div class="info">
+                        <div class="title">台灣虎航 IT606</div>
+                        <span class="time-tag">14:20托運</span>
+                        <br>
+                        <div class="transport-time-group">
+                            <div class="time-box">
+                                <div class="time-val">16:50</div>
+                                <div class="time-loc">TPE</div>
+                            </div>
+                            <div class="time-arrow"><span class="duration-tag">2小時15分鐘</span></div>
+                            <div class="time-box">
+                                <div class="time-val">20:05</div>
+                                <div class="time-loc">PUS</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNTAzMDZfMjIy%2FMDAxNzQxMTkxMzA1MDAy.Vliq79Qm5CEA6nYtQwOmDjItbsZSSlDzEV8qDezLNVIg.k2vvKuzKNI6f35vEJ7FmQwc6PV1UFPcjWOAvAPCohQcg.JPEG%2FIMG_4199.jpeg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">Stay Moment</div>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/G4Wo3D8L" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240313_20%2F1710297487847Jrq0E_JPEG%2F001.jpg">
+                    <div class="info">
+                        <div class="title">釜山土生土長豬肉湯飯</div>
+                        <br>
+                        <p class="spot-desc">韓國釜山代表性的在地美食。以長時間熬煮的豬骨湯為底，加入切片豬肉與內臟，湯頭濃郁不油膩，搭配白飯一同食用，附上韭菜、蝦醬、辣醬與泡菜，依喜好自行調味。</p>
+                    </div>
+                </div>
+            </a>
+
+            <div class="day-banner" id="day2">11/7 (六) </div>
+            <a href="https://naver.me/GbDnmIuy" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNTEwMTFfMTAx%2FMDAxNzYwMTQ1ODkyNzcz.Xp--G-g0fjfLHN4Dvb2SBwfNQG6xPYxTpYPS1MbwOxgg.3LwXelmmSvFtsTXnhBJo7Vp6OnvMI05s-KClCxBg8Osg.JPEG%2FC21933D2-5090-47C7-A48A-A66DFA3D1AB4.jpeg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">Daily Lucky</div>
+                        <br>
+                        <p class="spot-desc">人氣早午餐咖啡店，以新鮮酸種麵包與手作三明治為特色。一家提供咖啡、麵包與輕食早午餐的溫馨咖啡店。人氣菜單：義大利火腿起司三明治、各種酸種麵包、湯品等</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://www.jumpman.tw/wp-content/uploads/joomla/1561/20190330-DSC07646.jpg">
+                    <div class="info">
+                        <div class="title">南川洞櫻花街</div>
+                        <br>
+                        <p class="spot-desc">當地著名的賞櫻景點。每年約3月底至4月初櫻花盛開時，整條街道形成粉色櫻花隧道，景色浪漫迷人。由於鄰近海邊與住宅區，氛圍相對悠閒，少了大型觀光景點的人潮，更有在地生活感，是春季到釜山旅遊不可錯過的賞花地點之一。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNTAzMjNfMTM4%2FMDAxNzQyNzI2MDg4NDA4.0YmzjIBxf_PbzItqI3JHbbJtb5qfWVLXMqLICnmUYiQg.ucKYp_HJDyA83-rO4IZMjzuMOeZMwF0Yh96MNbAZovAg.JPEG%2F20250323_072632.jpg.jpg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">五六島迎日公園</div>
+                        <br>
+                        <p class="spot-desc">欣賞海景與日出的熱門景點。公園面向著名的五六島，天氣晴朗時可清楚看到海上岩島景觀。這裡也是迎接新年的著名地點，許多遊客會特地前來觀看日出，寓意嶄新的開始。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://res.klook.com/image/upload/q_85/c_fill,w_1360/fl_lossy.progressive/q_auto/blogtw/2019/10/20728360_1478690745571642_980107631793670650_n.jpg">
+                    <div class="info">
+                        <div class="title">五六島天空步道</div>
+                        <br>
+                        <p class="spot-desc">位於五六島迎日公園內，是當地知名的海景景點。步道採U字形設計，地面為透明強化玻璃，延伸至海岸懸崖外側，能直接俯瞰腳下的海浪與岩石，視覺效果震撼。免費開放入場（需穿戴鞋套），是釜山欣賞海景與拍照打卡的熱門地標之一。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://i0.wp.com/journey.tw/wp-content/uploads/2023-04-02-220050-15.jpg?ssl=1">
+                    <div class="info">
+                        <div class="title">溫泉川</div>
+                        <br>
+                        <p class="spot-desc">當地著名的市區河川與散步景點。河道兩旁規劃完善，有自行車道與步道，四季景色各有特色。春天櫻花盛開時形成櫻花步道，吸引許多市民與遊客前來賞花。「溫泉川」名稱來自東萊溫泉地區，周邊也有溫泉設施與住宅區，整體氛圍悠閒，是體驗釜山市民日常生活的好去處。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/x3HLlCrE" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fnaverbooking-phinf.pstatic.net%2F20220927_249%2F1664267421711Ej1ae_JPEG%2FIMG_4483-1.jpg">
+                    <div class="info">
+                        <div class="title">外食365・帝王蟹好日子</div>
+                        <br>
+                        <p class="spot-desc">主打各式以螃蟹與甲殼類為特色的料理。這間餐廳以新鮮的螃蟹菜餚為招牌，提供多種烹調方式的蟹料理，是海鮮愛好者的熱門選擇。餐點口味受到當地食客好評，適合想嘗試釜山海鮮美食的旅人前往。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNTA0MTZfMjc0%2FMDAxNzQ0ODAyNDMxMzI2.KRVnY2WafCemU44x4iLNmyGb7WAkuEZicompw9EX3Rgg.Zoq8MtnbP9pTEl9raa2UPKtgLnKEJsFdlcqn7sVI9ywg.JPEG%2F20250415_115243.jpg.jpg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">東萊邑城</div>
+                        <br>
+                        <p class="spot-desc">朝鮮時代的重要城郭遺址。最早建於高麗時期，後在朝鮮王朝時重建與擴建，具有軍事防禦功能。1592年壬辰倭亂期間，這裡曾發生激烈戰役，是韓國歷史上的重要戰場之一。現今部分城牆與城門已復原，園區綠意盎然，春季櫻花盛開時特別美麗，也常舉辦歷史文化活動，適合喜歡歷史古蹟與散步賞景的旅人造訪。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/GmbMzCRp" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.pstatic.net%2FMjAyNTAxMjhfMTEw%2FMDAxNzM4MDYyMzI5ODMx.tdhYwkGaSwON89FbJlsljWeU0LB0snWyVOC4poOyM60g.lLy9H_xCUsGqYUnBTdzECaK3Cy_4kQJ4uJS8t13O45wg.JPEG%2F신가네_(23).jpg%2F1536x2048">
+                    <div class="info">
+                        <div class="title">新家糖餅・飯捲・辣炒年糕</div>
+                        <br>
+                        <p class="spot-desc">一家人氣韓式街頭小吃店，以超平價經典小吃為主、從早餐到晚餐都能吃到傳統味。這裡就是一站式嚐遍韓國經典路邊小吃的好地方，味道樸實、價格友善，非常適合想體驗地道韓式小吃的旅人。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/5mI0AdxF" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.pstatic.net%2FMjAyNTEwMDhfOTgg%2FMDAxNzU5OTExNTY3MjA0.siJixTunmE6WqXUQ96mQzVludt-mXc9B1Htbcrg-llYg.absqqgrepNbe8k40uv0BYHxC_Hnzks2U9ZVe4MCIB9og.JPEG%2FIMG＿7680.jpg%2F900x900">
+                    <div class="info">
+                        <div class="title">MOMOS</div>
+                        <br>
+                        <p class="spot-desc">韓國釜山最具代表性的精品咖啡品牌之一，也是韓國咖啡迷心中的朝聖地。創立於 2007 年，以專業烘豆與高品質手沖咖啡聞名，曾在國際咖啡賽事中獲獎，提升了品牌知名度。店內空間多為簡約現代風格，主打單品咖啡與自家烘焙咖啡豆，也販售甜點與輕食。無論是咖啡品質或品牌地位，MOMOS 都被視為釜山精品咖啡的代表之一。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210208_186%2F1612760142274HnOmz_JPEG%2FXuKxRHwuy9jhO5UZ4gBHTv_m.jpeg.jpg">
+                    <div class="info">
+                        <div class="title">E-MART TRADERS</div>
+                        <span class="time-tag">買韓牛</span>
+                        <br>
+                        <p class="spot-desc">大型倉儲型折扣購物超市。由韓國最大零售連鎖體系 E-Mart 旗下品牌 Traders 經營，是個結合了傳統大賣場與倉儲式量販特色的購物場所。這類店鋪主打 大量、低價、多種類商品，賣場空間寬敞，商品陳列多以批量、大包裝為主。類似 韓版Costco 但不像 Costco 需要會員資格才能購物，在 Emart Traders 店，不需要付費會員即可進入消費。</p>
+                    </div>
+                </div>
+            </a>
+
+            <div class="day-banner" id="day3">11/8 (日) </div>
+            <a href="https://naver.me/FjbntCMH" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250601_230%2F1748751460415bJ9fY_JPEG%2FKakaoTalk_Photo_2025-06-01-12-59-17_2.jpeg">
+                    <div class="info">
+                        <div class="title">Who's who Mumu</div>
+                        <br>
+                        <p class="spot-desc">熱門手工麵包與咖啡店，以創意麵包、可頌和鹹甜口味點心聞名。店內氣氛溫馨，有的座位可搭配咖啡坐下享用，靠近海邊也很適合當作散步前後的甜點或早餐地點。人氣商品包括蒜香可頌與紅豆／韓式粉粿奶油麵包等創意口味。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNDAxMDlfODIg%2FMDAxNzA0NzkxODgzNzMz.cHux6apz5v0Y4vV4rwqaB9cYtKdXPwLzO0NvnFaJL9wg.FO8xwJekkyRpOfY9PCt9OcrZSyQWdo0-7Me9458-4LEg.JPEG%2F817EEC86-E115-4DF2-9683-E4BFC746FBBA.jpeg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">膠囊列車</div>
+                        <span class="time-tag">09:00-09:30</span>
+                        <br>
+                        <p class="spot-desc">沿海設計的觀光小型膠囊列車。車廂透明，可邊行駛邊欣賞海景與海岸風光，適合拍照打卡與輕鬆散步式旅遊體驗。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://www.visitbusan.net/uploadImgs/files/cntnts/20200825180201921">
+                    <div class="info">
+                        <div class="title">海岸列車</div>
+                        <span class="time-tag">BIG 5</span>
+                        <br>
+                        <p class="spot-desc">行駛於地面，全車廂採用「面向大海」的階梯式座位，適合團體或想快速往返各站的旅客。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNTEyMDFfMTc3%2FMDAxNzY0NTU4MTk5NzM5.mqIMIf6YkjLl1CiroSOimKyQri6fMD_jGid_qr12UKQg.NnqtBLeoeIJbOBRtM0PjKIeq5qgLlVO4RufqvawT3gog.JPEG%2F7ECB80BC-2F4E-49DF-A2BB-FA3706DD5ECC.jpeg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">踏石展望台</div>
+                        <br>
+                        <p class="spot-desc">可俯瞰海景與沿岸景致的小型觀景台。環境清幽，設有步道和休憩區，適合散步、拍照和欣賞日落。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/IMyGdVr6" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20230207_177%2F1675725226987V8hRJ_JPEG%2FKakaoTalk_20221104_155720181.jpg">
+                    <div class="info">
+                        <div class="title">尾浦家</div>
+                        <span class="time-tag">12:00</span>
+                        <br>
+                        <p class="spot-desc">很受歡迎的醬海鮮餐廳，以大份量的醃製海鮮套餐（像是醬蟹、各種海鮮拼盤）和釜飯、小菜聞名，風味鮮美、份量足。店裡常常需要排隊或預約，是喜歡海鮮料理的遊客推薦的美食之一。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/57VZtyx3" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240207_191%2F1707293543299O12kn_JPEG%2FDSC06193-5.jpg">
+                    <div class="info">
+                        <div class="title">水月鏡花</div>
+                        <br>
+                        <p class="spot-desc">特色韓屋風咖啡廳，主打各式茶飲、傳統點心與咖啡。店內可透過大窗眺望整片海景和海岸列車經過的畫面，氛圍優雅寧靜，是喝下午茶、拍照打卡的熱門景點。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNjAyMTVfOTQg%2FMDAxNzcxMTI3NDI3NTQx.pRdoJ6gxdrdOJJccnBWwcI33h5MgvrWQ1d91oNQgnksg.UBNW0FMuiY9S3eT7GhD5nRRXrnkKAXIX2BMyPRz2uH8g.JPEG%2F1000069253.jpg.jpg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">松亭海水浴場</div>
+                        <br>
+                        <p class="spot-desc">氣氛較悠閒的海灘。這裡以乾淨沙灘與平穩海浪聞名，適合衝浪與散步。相比海雲台人潮較少，氛圍更放鬆自在。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA5MTBfNzAg%2FMDAxNzU3NDcyODEwODEw.kewpK5Xg6qQ9JeHoA7UkeFTfJqKvwj5Dr-F5DdtTkY4g.CjSg5ttsYYO4Yuf1cDepSvxcI7UKUy0YLZA_ZkLR6p0g.JPEG%2FKakaoTalk_20250910_114103979.jpg">
+                    <div class="info">
+                        <div class="title">海月展望台</div>
+                        <br>
+                        <p class="spot-desc">眺望海景與沿岸風光的觀景平台。展望台設計簡約，可欣賞日出、海浪與遠方小島景色，是拍照與散步的熱門地點。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTEwMjhfMzQg%2FMDAxNzYxNjEwNjU1MTMy.pUUDAGw4VYMaWqFdCAcq9AcE0ahPXcWlhSy0153nYbwg.DcTJTXi9M1XHODpNizhXbjExO5SkOWX85mCGZxbqKQQg.JPEG%2F900%25A3%25DF20251020%25A3%25DF114650.jpg">
+                    <div class="info">
+                        <div class="title">迎月隧道</div>
+                        <br>
+                        <p class="spot-desc">連接海邊景點的特色隧道。隧道內光線設計美觀，開車或步行經過時能欣賞海岸景致，常被遊客用作拍照打卡點。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/xrSQSF2f" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240720_211%2F1721458139893oOC4j_JPEG%2FKakaoTalk_20240720_154434226.jpg">
+                    <div class="info">
+                        <div class="title">自然島鹽麵包</div>
+                        <br>
+                        <p class="spot-desc">韓國人氣鹽可頌，外酥內軟，鹹甜平衡，奶油香濃。熱吃風味最佳，是當地和旅客的熱門下午茶小點。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDA5MDRfNDMg%2FMDAxNTk5MjE1NTY2NTgz.fxex5X38LDYOmJgEMnWxllrQWvQsx4ISNWZgFFPttdwg.FskXnODqt2R8jnqYySxpUTFM_RkHPTtQOCGG9Qm-KEEg.JPEG.ckddnjs3506%2F1599215568471.jpg%23900x426">
+                    <div class="info">
+                        <div class="title">X the SKY</div>
+                        <br>
+                        <p class="spot-desc">高空觀景台景點，位於海雲臺LCT Landmark Tower 98–100樓，是韓國第二高的觀景台。可以搭高速電梯上去俯瞰海雲台沙灘與釜山全景，還有玻璃空中步道、觀景休息區和世界最高星巴克等熱門拍照點。白天、夕陽和夜景都很值得一看。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNjAxMjNfMjQ5%2FMDAxNzY5MTEwNzk4OTY3.0YKc-11qCsRsrIUlxAmhxhxuEJ4IhsbYm1b4LZC8ByYg.cbPfAu0PGIw33jjY0RFDAusJQZ2xJuKoNvfAwfc43LQg.JPEG%2F20260121_172659.jpg.jpg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">海雲台海水浴場</div>
+                        <br>
+                        <p class="spot-desc">釜山最知名的海灘之一，擁有寬廣沙灘與熱鬧海岸氛圍。夏季吸引大量遊客戲水、日光浴與參加海洋活動。周邊餐廳與咖啡廳林立，是來釜山必訪景點。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNTA2MTdfMTc5%2FMDAxNzUwMTcyMzMxMjE1.t1ZcQhNHmF9hql84kPdAY-Uxkh7AYC0Vj5A0qCI2oW8g.YdgqV-5ezJoDcitTRFFn3i9aPAGOH8iuCjxBMF6kWSog.JPEG%2FSE-8b580421-4b85-11f0-81e7-2ffb4a1c511a.jpg.jpg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">松林公園</div>
+                        <br>
+                        <p class="spot-desc">結合松樹林與海景的休憩公園。園內有步道與觀景區，適合散步、看海與放鬆。環境清幽，是當地人喜愛的散心地點。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNjAyMDhfMTIx%2FMDAxNzcwNDc5OTQ5NjY3.A5OO5Lvs8bJLmnsStHT7lDrVcmnV9p24AHxxi8bLFdUg.aNvBsfmmXdfQdr-KSxOAWFxUj5l23cdHW_KEfB6Dvbog.JPEG%2F20260205_150849.jpg.jpg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">冬柏島</div>
+                        <br>
+                        <p class="spot-desc">欣賞海景與廣安大橋的熱門散步景點。島上有環海步道與觀景台，春天可見山茶花盛開。氣氛悠閒，很適合傍晚來看夕陽。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/GEXhAEvs" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250915_244%2F1757926453996Yo6Vq_PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB_%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4..png">
+                    <div class="info">
+                        <div class="title">達人牛大腸</div>
+                        <span class="time-tag">18:00</span>
+                        <br>
+                        <p class="spot-desc">人氣韓牛烤肉餐廳，主打新鮮牛內臟與牛肉料理。肉質鮮嫩、份量實在，搭配韓式小菜風味十足。適合想體驗道地韓式燒肉的饕客。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/5wWelhk7" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNjAxMDZfMTc1%2FMDAxNzY3NjgxMTc4MDAx.SvD6l-UUzxYViMfo6HHDn52ApdCrVK6RvIVGqHasPqMg.dyEWkrgROr7I12efP2oOMX2mzeSP0lFs5kxg0rRqrmMg.JPEG%2FKakaoTalk_20251230_205528843_02.jpg">
+                    <div class="info">
+                        <div class="title">海雲台名品糖餅</div>
+                        <br>
+                        <p class="spot-desc">海雲台市場內的人氣小吃攤。主打現炸黑糖堅果糖餅，外酥內軟、甜而不膩。逛市場時來一份熱騰騰的糖餅，是經典釜山味道。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/54LbVVL3" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNjAyMThfMTY4%2FMDAxNzcxNDAwOTQ0NDY0.po5Q9UufFX8xF8xPVrnNk2ScrxBuFn7LblTMMsvDaeQg.BRKzRI6kmXgusgqJI3-XklnHfPqIU4E-agIM3kdNMTkg.JPEG%2FE7DD6A4C-046F-4F7B-B103-685C1CBDC39E.jpeg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">尚國家</div>
+                        <br>
+                        <p class="spot-desc">熱門傳統小吃店，招牌是辣炒年糕與魚板、飯捲等韓式街頭美食。以年糕Q彈、辣醬香辣著稱，是當地人和遊客都愛排隊品嚐的經典小吃。</p>
+                    </div>
+                </div>
+            </a>
+
+            <div class="day-banner" id="day4">11/9 (一) 由布院 ♨️</div>
+            <a href="https://naver.me/5WOQqri9" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240902_217%2F1725257120755OOAOp_JPEG%2FIMG_5939.jpeg">
+                    <div class="info">
+                        <div class="title">All Sunday</div>
+                        <br>
+                        <p class="spot-desc">熱門貝果店，當地人和觀光客都會排隊。貝果口味多、配料豐富，還有咖啡可以配，面對海灘吃超愜意。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNjAyMTRfMjIw%2FMDAxNzcxMDU1MDQ2NDU1.gHdK4YJaoeOUj52yKHz0C6jvr8CSsaWYjqSDOjuS61Yg.ykwCWBbHO_cS2n797YlL7SBI6yY1mWOtUi2TNmS2J6Mg.JPEG%2F20260214_135156.jpg.jpg%3Ftype%3Dw1500_60_sharpen">
+                    <div class="info">
+                        <div class="title">海東龍宮寺</div>
+                        <br>
+                        <p class="spot-desc">建在懸崖上面向大海。寺廟與海景融合，日出特別壯觀，是拍照與散步的熱門景點。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250916_70%2F1757979606600Ldz9a_PNG%2F%25B7%25E7%25C1%25F6.png">
+                    <div class="info">
+                        <div class="title">Skyline Luge</div>
+                        <span class="time-tag">BIG 5</span>
+                        <br>
+                        <p class="spot-desc">戶外刺激遊樂體驗景點。會先搭乘吊椅到高處，再坐上重力驅動的特殊滑車沿著4條彎道滑下，全長約 2.4 公里，速度與視野都很過癮。園區也有高空滑索，可以俯瞰周邊山海景色，是結合冒險與風景的熱門活動。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/xyTGc2s3" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA5MjJfMjM4%2FMDAxNzU4NTQxNDI2Nzk0.3MxPntPer5uNJd-Qz8mGVvbAvKSrsiubeYKX8MC-YAEg.W8DP-zG9nT6fgadfGuQAMpLAUSCeNu54Hziu2W9sw6Mg.JPEG%2FP20250920_172035975_956C238F-EA0B-4F63-8252-C91D630C6E9D.jpg">
+                    <div class="info">
+                        <div class="title">元祖稻草烤盲鰻機張外婆家</div>
+                        <span class="time-tag">12:00</span>
+                        <br>
+                        <p class="spot-desc">特色海鰻/盲鰻烤魚餐廳，以 稻草火烤方式 烹調盲鰻讓香氣更突出，是當地的老字號名店。招牌菜是 稻草烤盲鰻，也有調味盲鰻、鹽烤盲鰻和香辣盲鰻湯等多種料理可選，食材新鮮、風味獨特。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221014_299%2F1665727955941OL6CN_JPEG%2F%25C7%25C1%25B8%25AE%25B9%25CC%25BE%25F6%25BE%25C6%25BF%25EF%25B7%25BF_%25B5%25BF%25BA%25CE%25BB%25EA1_%25281%2529.jpg">
+                    <div class="info">
+                        <div class="title">LOTTE PREMIUM OUTLETS</div>
+                        <br>
+                        <p class="spot-desc">大型名牌折扣購物中心。這裡有國際及韓國品牌，價格優惠，適合購物愛好者。園區寬敞，也有餐飲區和咖啡廳，方便逛上一整天。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/5owqNDrY" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20251121_53%2F1763701700217y90gn_JPEG%2FIMG_0034.jpeg">
+                    <div class="info">
+                        <div class="title">Seasons</div>
+                        <br>
+                        <p class="spot-desc">招牌是四層草莓蛋糕的咖啡廳。提供各種咖啡、季節性飲品與甜點，環境適合坐下來喝杯飲料、享受海景與輕食。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="spot-link">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://damei17.com/wp-content/uploads/2023/11/釜山遊艇體驗-The-Bay101、水營灣遊艇競技場-39.jpg">
+                    <div class="info">
+                        <div class="title">Yacht Holic</div>
+                        <span class="time-tag">18:30</span>
+                        <br>
+                        <p class="spot-desc">遊艇體驗公司，提供租船、帆船與海上觀光服務。遊客可在海上欣賞海雲台、冬柏島與廣安大橋景色，享受悠閒海上活動與拍照體驗。</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://naver.me/5k7fNabv" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250411_232%2F17443517889350Uspx_JPEG%2FGRP_7408-1.jpg">
+                    <div class="info">
+                        <div class="title">石雞</div>
+                        <br>
+                        <p class="spot-desc">以烤雞料理聞名的餐廳。特色是將雞肉以石板烤製，外皮酥脆、肉質鮮嫩。靠近海邊，邊用餐還能欣賞廣安大橋與海景。</p>
+                    </div>
+                </div>
+            </a>
+
+            <div class="day-banner" id="day5">11/10 (二) ✈️</div>
+            <a href="https://naver.me/FSwXQO4s" class="spot-link" target="_blank">
+                <div class="spot-row">
+                    <img class="spot-img" src="https://images.travelandleisureasia.com/wp-content/uploads/sites/7/2024/10/25124846/lotteria-singapore-featured-image-1350x900.jpg">
+                    <div class="info">
+                        <div class="title">LOTTERIA</div>
+                        <br>
+                        <p class="spot-desc">韓國最知名的 本土速食連鎖品牌，類似美式快餐店，但口味上更貼近韓國人喜好。主打 漢堡、炸雞、薯條、甜點 等速食餐點，有不少 韓式特色口味限定商品。</p>
+                    </div>
+                </div>
+            </a>
+            <a class="transport-link">
+                <div class="transport-card">
+                    <div class="transport-icon">✈️</div>
+                    <div class="info">
+                        <div class="title">中華航空 CI189</div>
+                        <span class="time-tag">09:45托運</span>
+                        <br>
+                        <div class="transport-time-group">
+                            <div class="time-box">
+                                <div class="time-val">12:15</div>
+                                <div class="time-loc">PUS</div>
+                            </div>
+                            <div class="time-arrow"><span class="duration-tag">2小時25分鐘</span></div>
+                            <div class="time-box">
+                                <div class="time-val">13:40</div>
+                                <div class="time-loc">TPE</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a class="transport-link">
+                <div class="transport-card">
+                    <div class="transport-icon">🚄</div>
+                    <div class="info">
+                        <div class="title">台灣高鐵 663</div>
+                        <br>
+                        <div class="transport-time-group">
+                            <div class="time-box">
+                                <div class="time-val">17:10</div>
+                                <div class="time-loc">桃園</div>
+                            </div>
+                            <div class="time-arrow"><span class="duration-tag">36分鐘</span></div>
+                            <div class="time-box">
+                                <div class="time-val">17:46</div>
+                                <div class="time-loc">台中</div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="transport-time-group">
+                            <div class="time-box">
+                                <div class="time-val">17:10</div>
+                                <div class="time-loc">桃園</div>
+                            </div>
+                            <div class="time-arrow"><span class="duration-tag">1小時22分鐘</span></div>
+                            <div class="time-box">
+                                <div class="time-val">18:32</div>
+                                <div class="time-loc">台南</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <footer>Edited by Jessica Liu</footer>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("sideMenu").classList.toggle("open");
+        }
+
+        function closeMenu() {
+            var menu = document.getElementById("sideMenu");
+            if (menu.classList.contains("open")) {
+                menu.classList.remove("open");
+            }
+        }
+
+        function toggleCity(btn) {
+            var cityList = btn.nextElementSibling;
+            cityList.classList.toggle("active");
+            if (cityList.classList.contains("active")) {
+                btn.innerHTML = btn.innerHTML.replace("▼", "▲");
+            } else {
+                btn.innerHTML = btn.innerHTML.replace("▲", "▼");
+            }
+        }
+    </script>
+</body>
+</html>
